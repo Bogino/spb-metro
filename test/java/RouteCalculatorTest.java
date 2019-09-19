@@ -60,7 +60,9 @@ public class RouteCalculatorTest extends TestCase {
         double expected = 8.5;
         assertEquals(expected,actual);
     }
-
+/* Данный метод тестирует как getShortestRoute(), так и getRouteOnTheLine(Station from, Station to), т.к этот метод возвращает короткий путь
+   и при условии, если станции находятся на одно линии
+  */
     public void testGetShortestRoute()
     {
         List<Station> actual = routeCalculator.getShortestRoute(stationIndex.getStation("Морковная"),stationIndex.getStation("Яблочная"));
@@ -68,8 +70,16 @@ public class RouteCalculatorTest extends TestCase {
         expected.add(stationIndex.getStation("Морковная"));
         expected.add(stationIndex.getStation("Яблочная"));
         assertEquals(expected,actual);
+    }
 
-
+    public void testGetRouteWithOneConnections()
+    {
+        List<Station> actual = routeCalculator.getShortestRoute(stationIndex.getStation("Арбузная"),stationIndex.getStation("Яблочная"));
+        List<Station> expected = new ArrayList<>();
+        expected.add(stationIndex.getStation("Арбузная"));
+        expected.add(stationIndex.getStation("Морковная"));
+        expected.add(stationIndex.getStation("Яблочная"));
+        assertEquals(expected,actual);
     }
 
     @Override
