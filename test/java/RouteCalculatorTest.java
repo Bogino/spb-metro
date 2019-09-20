@@ -48,9 +48,14 @@ public class RouteCalculatorTest extends TestCase {
         stationIndex.stations.addAll(route);
         //Создаю список из двух станций, между которыми переход
         List<Station> connection = new ArrayList<>();
-        connection.add(route.stream().filter(station -> station.getName().equals("Арбузная")).iterator().next());
-        connection.add(route.stream().filter(station -> station.getName().equals("Яблочная")).iterator().next());
+        connection.add(route.stream().filter(station -> station.getName().equals("Петровская")).iterator().next());
+        connection.add(route.stream().filter(station -> station.getName().equals("Морковная")).iterator().next());
         stationIndex.addConnection(connection);
+        //2-ой переход
+        List<Station> connection2 = new ArrayList<>();
+        connection2.add(route.stream().filter(station -> station.getName().equals("Арбузная")).iterator().next());
+        connection2.add(route.stream().filter(station -> station.getName().equals("Яблочная")).iterator().next());
+        stationIndex.addConnection(connection2);
 
     }
 
@@ -60,25 +65,34 @@ public class RouteCalculatorTest extends TestCase {
         double expected = 8.5;
         assertEquals(expected,actual);
     }
-/* Данный метод тестирует как getShortestRoute(), так и getRouteOnTheLine(Station from, Station to), т.к этот метод возвращает короткий путь
-   и при условии, если станции находятся на одно линии
-  */
+
     public void testGetShortestRoute()
     {
-        List<Station> actual = routeCalculator.getShortestRoute(stationIndex.getStation("Морковная"),stationIndex.getStation("Яблочная"));
+        List<Station> actual = routeCalculator.getShortestRoute(stationIndex.getStation("Петровская"),stationIndex.getStation("Морковная"));
         List<Station> expected = new ArrayList<>();
+        expected.add(stationIndex.getStation("Петровская"));
         expected.add(stationIndex.getStation("Морковная"));
-        expected.add(stationIndex.getStation("Яблочная"));
         assertEquals(expected,actual);
     }
 
     public void testGetRouteWithOneConnections()
     {
+        List<Station> actual = routeCalculator.getShortestRoute(stationIndex.getStation("Петровская"),stationIndex.getStation("Яблочная"));
+        List<Station> expected = new ArrayList<>();
+        expected.add(stationIndex.getStation("Петровская"));
+        expected.add(stationIndex.getStation("Морковная"));
+        expected.add(stationIndex.getStation("Яблочная"));
+        assertEquals(expected,actual);
+    }
+
+    //2-ой переход тоже работает
+    public void testGetRouteWithTwoConnections()
+    {
         List<Station> actual = routeCalculator.getShortestRoute(stationIndex.getStation("Арбузная"),stationIndex.getStation("Яблочная"));
         List<Station> expected = new ArrayList<>();
         expected.add(stationIndex.getStation("Арбузная"));
-        expected.add(stationIndex.getStation("Морковная"));
         expected.add(stationIndex.getStation("Яблочная"));
+
         assertEquals(expected,actual);
     }
 
@@ -86,13 +100,6 @@ public class RouteCalculatorTest extends TestCase {
     protected void tearDown() throws Exception {
 
     }
-
-
-
-
-
-
-
 
 
 
