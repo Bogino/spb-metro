@@ -91,7 +91,7 @@ public class RouteCalculatorTest extends TestCase {
         List<Station> actual = routeCalculator.getShortestRoute(stationIndex.getStation("Арбузная"),stationIndex.getStation("Яблочная"));
         List<Station> expected = new ArrayList<>();
         expected.add(stationIndex.getStation("Арбузная"));
-        expected.add(stationIndex.getStation("Яблочная"));
+        expected.add(stationIndex.getStation("Морковная"));
 
         assertEquals(expected,actual);
     }
