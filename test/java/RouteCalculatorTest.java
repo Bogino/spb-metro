@@ -17,6 +17,10 @@ public class RouteCalculatorTest extends TestCase {
     RouteCalculator routeCalculator;
     StationIndex stationIndex;
 
+    List<Station> route2;
+    RouteCalculator routeCalculator2;
+    StationIndex stationIndex2;
+
 
     @Override
     protected void setUp() throws Exception
@@ -44,19 +48,64 @@ public class RouteCalculatorTest extends TestCase {
         line2.addStation(s3);
         line2.addStation(s4);
 
-        //Здесь в stationIndex добавляю все станции
         stationIndex.stations.addAll(route);
-        //Создаю список из двух станций, между которыми переход
+
         List<Station> connection = new ArrayList<>();
         connection.add(route.stream().filter(station -> station.getName().equals("Петровская")).iterator().next());
         connection.add(route.stream().filter(station -> station.getName().equals("Морковная")).iterator().next());
         stationIndex.addConnection(connection);
-        //2-ой переход
+
         List<Station> connection2 = new ArrayList<>();
         connection2.add(route.stream().filter(station -> station.getName().equals("Арбузная")).iterator().next());
         connection2.add(route.stream().filter(station -> station.getName().equals("Яблочная")).iterator().next());
         stationIndex.addConnection(connection2);
+//=========================================================================================================================
+        route2 = new ArrayList<>();
 
+        stationIndex2 = new StationIndex();
+        routeCalculator2 = new RouteCalculator(stationIndex2);
+
+        Line line3 = new Line(3,"Третья");
+        Line line4 = new Line(4,"Четвертая");
+        Line line5 = new Line(5,"Пятая");
+
+        Station s5 = new Station("Петровская", line3);
+        Station s6 = new Station("Арбузная", line4);
+        Station s7 = new Station("Морковная",line3);
+        Station s8 = new Station("Яблочная",line4);
+        Station s9 = new Station("Чистые пруды", line3);
+        Station s10 = new Station("Зоопарк", line5);
+
+        route2.add(s5);
+        route2.add(s6);
+        route2.add(s7);
+        route2.add(s8);
+        route2.add(s9);
+        route2.add(s10);
+
+        line3.addStation(s5);
+        line4.addStation(s6);
+        line3.addStation(s7);
+        line4.addStation(s8);
+        line5.addStation(s9);
+        line5.addStation(s10);
+
+        stationIndex2.stations.addAll(route2);
+
+        List<Station> connection3 = new ArrayList<>();
+        connection3.add(s5);
+        connection3.add(s6);
+        stationIndex2.addConnection(connection3);
+
+        List<Station> connection4 = new ArrayList<>();
+        connection4.add(s7);
+        connection4.add(s8);
+        stationIndex2.addConnection(connection4);
+
+        List<Station> connection5 = new ArrayList<>();
+        connection5.add(s9);
+        connection5.add(s10);
+        stationIndex2.addConnection(connection5);
     }
 
     public void testCalculateDuration()
@@ -85,13 +134,15 @@ public class RouteCalculatorTest extends TestCase {
         assertEquals(expected,actual);
     }
 
-    //2-ой переход тоже работает
     public void testGetRouteWithTwoConnections()
     {
-        List<Station> actual = routeCalculator.getShortestRoute(stationIndex.getStation("Арбузная"),stationIndex.getStation("Яблочная"));
+        List<Station> actual = routeCalculator2.getShortestRoute(stationIndex2.getStation("Петровская"),stationIndex2.getStation("Зоопарк"));
         List<Station> expected = new ArrayList<>();
-        expected.add(stationIndex.getStation("Арбузная"));
-        expected.add(stationIndex.getStation("Морковная"));
+        expected.add(stationIndex2.getStation("Петровская"));
+        expected.add(stationIndex2.getStation("Арбузная"));
+        expected.add(stationIndex2.getStation("Морковная"));
+        expected.add(stationIndex2.getStation("Яблочная"));
+        expected.add(stationIndex2.getStation("Чистые пруды"));
 
         assertEquals(expected,actual);
     }
