@@ -108,10 +108,17 @@ public class RouteCalculatorTest extends TestCase {
 
     }
 
-    public void testCalculateDuration()
+    public void testCalculateDurationWithOneConnection()
     {
         double actual = RouteCalculator.calculateDuration(routeCalculator.getShortestRoute(stationIndex.getStation("Петровская"),stationIndex.getStation("Яблочная")));
         double expected = 6;
+        assertEquals(expected,actual);
+    }
+    public void testCalculateDurationWithTwoConnection()
+    {
+        double actual = RouteCalculator.calculateDuration(routeCalculator2.getShortestRoute(stationIndex2.getStation("Вымпел"),
+                stationIndex2.getStation("Добрынина")));
+        double expected = 14.5;
         assertEquals(expected,actual);
     }
 
@@ -141,6 +148,10 @@ public class RouteCalculatorTest extends TestCase {
                 stationIndex2.getStation("Добрынина"));
         List<Station> expected = new ArrayList<>();
         expected.add(stationIndex2.getStation("Вымпел"));
+        expected.add(stationIndex2.getStation("Восточная"));
+        expected.add(stationIndex2.getStation("Гречка"));
+        expected.add(stationIndex2.getStation("Голивуд"));
+        expected.add(stationIndex2.getStation("Дмитровская"));
         expected.add(stationIndex2.getStation("Добрынина"));
         assertEquals(expected,actual);
     }

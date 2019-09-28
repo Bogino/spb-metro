@@ -5,14 +5,17 @@
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
 
-        <File name="MyFile" fileName="logs/app.log">
+        <File name="SearchFile" fileName="logs/search.log">
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <Filters>
+                <ThresholdFilter level="warn" onMatch="DENY" onMismatch="NEUTRAL" />
+            </Filters>
         </File>
     </appenders>
 
     <loggers>
-        <root level="debug">
-            <appender-ref ref="MyFile" level="info"/>
+        <root level="info">
+            <appender-ref ref="SearchFile" level="info"/>
         </root>
     </loggers>
 </configuration>
