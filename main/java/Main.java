@@ -37,7 +37,6 @@ public class Main
                 List<Station> route = calculator.getShortestRoute(from, to);
                 System.out.println("Маршрут:");
                 printRoute(route);
-
                 System.out.println("Длительность: " +
                         RouteCalculator.calculateDuration(route) + " минут");
             } catch (Exception ex)
@@ -80,16 +79,16 @@ public class Main
         {
             System.out.println(message);
             String line = scanner.nextLine().trim();
-            if (message.replaceAll("Введите станцию", "").trim().trim().equals("отправления:")) {
-                logger.info("Ищут станцию отправления " + line);
-            } else {
-                logger.info("Ищут станцию назначения " + line);
-            }
             Station station = stationIndex.getStation(line);
             if(station != null) {
+                if (message.replaceAll("Введите станцию", "").trim().trim().equals("отправления:")) {
+                    logger.info("Ищут станцию отправления " + line);
+                } else {
+                    logger.info("Ищут станцию назначения " + line);
+                }
                 return station;
             }
-            logger.info("Станция " + line + " не найдена");
+            logger.warn("Станция " + line + " не найдена");
             System.out.println("Станция не найдена :(");
         }
     }

@@ -11,11 +11,25 @@
                 <ThresholdFilter level="warn" onMatch="DENY" onMismatch="NEUTRAL" />
             </Filters>
         </File>
+        <File name="Input_errors" fileName="logs/input_errors.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <Filters>
+                <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
+        </File>
+        <File name="Exceptions" fileName="logs/exceptions.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <Filters>
+                <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
+        </File>
     </appenders>
 
     <loggers>
         <root level="info">
-            <appender-ref ref="SearchFile" level="info"/>
+            <appender-ref ref="SearchFile" />
+            <appender-ref ref="Input_errors" />
+            <appender-ref ref="Exceptions" />
         </root>
     </loggers>
 </configuration>
